@@ -29,12 +29,16 @@
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <% @working_team.agendas.each do |agenda| %>
+        <%#= link_to '削除', agenda_path, method: :delete, data: { confirm: '本当に削除してよいですか' } %>
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
               <i class="fa fa-circle-o nav-icon"></i>
-              <p>
+              <p style="display: flex;">
                 <%= agenda.title %>
+                <%= link_to '削除', agenda_path(agenda), method: :delete, data: { confirm: '本当に削除してよいですか' }, class: 'btn btn-danger' %>
                 <i class="right fa fa-angle-left"></i>
+                <%#= link_to '削除', agenda_path(agenda), method: :delete, data: { confirm: '本当に削除してよいですか' }, do %>
+                  <%# <i class="fas fa-trash-alt"></i> %>
               </p>
             </a>
             <ul class="nav nav-treeview" style="display: block;">
