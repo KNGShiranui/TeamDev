@@ -1,6 +1,6 @@
 User.seed(
   :id,
-  { id: 1,  email: Faker::Internet.email, password: 'password' },
+  { id: 1,  email: kng3@example.com, password: '11101252' },
   { id: 2,  email: Faker::Internet.email, password: 'password' },
   { id: 3,  email: Faker::Internet.email, password: 'password' },
   { id: 4,  email: Faker::Internet.email, password: 'password' },
@@ -18,7 +18,7 @@ Team.seed(
   { id: 2, owner_id: 2, name: Faker::App.name.delete(' ') },
   id: 3, owner_id: 1, name: Faker::App.name.delete(' ')
 )
-
+  
 Assign.seed(
   :id,
   { id: 1, user_id: 3, team_id: 1 },
