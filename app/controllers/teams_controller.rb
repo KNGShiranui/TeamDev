@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_team, only: %i[show edit update destroy]
+  before_action :set_team, only: %i[show edit update destroy assign_owner]
 
   def index
     @teams = Team.all
@@ -29,8 +29,10 @@ class TeamsController < ApplicationController
     end
   end
 
-  def update
-    if @team.update(team_params)
+  def update  # このupdateはアクションの一つ
+    if @team.update(team_params)  
+      # このupdateはアクションではなくActive Recordモデルのメソッド。
+      # 引数として許可された属性のハッシュを取り、その属性を更新しようとします。
       redirect_to @team, notice: I18n.t('views.messages.update_team')
     else
       flash.now[:error] = I18n.t('views.messages.failed_to_save_team')
@@ -45,6 +47,16 @@ class TeamsController < ApplicationController
 
   def dashboard
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
+  end
+
+  def assign_owner
+    if @team.owner_id == current_user.id
+      @team.update(owner_id: params[:owner_id])  #TODO:ここが間違ってる
+
+      @user = User.find(@team.owner_id)
+      AssignMailer.assign_owner_mail(@user.email).deliver
+      redirect_to @team, notice: "権限が変更されました"
+    end       
   end
 
   private
